@@ -44,10 +44,16 @@ popupEditButton.addEventListener('click', () => openModal(popupEditCard));
 popupOpenButtonNewCard.addEventListener('click', () => openModal(popupNewCard));
 
 // Находим форму редактирования автора в DOM
-const formElement = document.forms["edit-profile"];// Воспользуйтесь методом querySelector()
+const formElement = document.forms["edit-profile"];
 // Находим поля формы в DOM
 const nameInput = formElement.elements.name;
 const jobInput = formElement.elements.description;
+const profileTitle = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
+
+//получение существующих значений
+nameInput.value = profileTitle.textContent;
+jobInput.value = profileDescription.textContent;
 
 // Обработчик «отправки» формы
 function handleFormSubmit(evt) {
@@ -57,10 +63,6 @@ function handleFormSubmit(evt) {
   const nameInputValue = nameInput.value;
   const jobInputValue = jobInput.value;
   
-  // Выберите элементы, куда должны быть вставлены значения полей
-  const profileTitle = document.querySelector('.profile__title')  // Воспользуйтесь инструментом .querySelector()
-  const profileDescription = document.querySelector('.profile__description') // Воспользуйтесь инструментом .querySelector()
-
   // Вставьте новые значения с помощью textContent
   profileTitle.textContent = nameInputValue;
   profileDescription.textContent = jobInputValue;
