@@ -10,16 +10,12 @@ export function setLikeCard(card) {
   card.target.classList.toggle('card__like-button_is-active')
 };
 
-export function createCard({name, link}, deleteElement, setLikeElement) {
+export function createCard({name, link}, deleteElement, setLikeElement, clickImageCard) {
   const placeElement = cardTemplate.cloneNode(true);
   const cardDeleteButton = placeElement.querySelector('.card__delete-button');
   const cardTitle = placeElement.querySelector('.card__title');
   const cardImage = placeElement.querySelector('.card__image');
   const cardLikeButton = placeElement.querySelector('.card__like-button');
-  //подумать над названиями
-  const popupImageOp = document.querySelector('.popup_type_image')
-  const popupImage = document.querySelector('.popup__image')
-  const popupCaption = document.querySelector('.popup__caption') 
 
   cardTitle.textContent = name;
   cardImage.src = link;
@@ -34,9 +30,7 @@ export function createCard({name, link}, deleteElement, setLikeElement) {
   });
 
   cardImage.addEventListener('click', function () {
-    openModal(popupImageOp);
-    popupImage.src = cardImage.src;
-    popupCaption.textContent = cardTitle.textContent;
+    clickImageCard(cardImage, cardTitle);
   });
 
   return placeElement;
