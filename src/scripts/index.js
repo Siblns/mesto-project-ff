@@ -12,10 +12,10 @@ from '../components/createCards.js';
 const placesList = document.querySelector('.places__list');
 
 function clickImageCard(cardImage, cardTitle){
-  const popupImageOp = document.querySelector('.popup_type_image');
+  const popupImageType = document.querySelector('.popup_type_image');
   const popupImage = document.querySelector('.popup__image');
   const popupCaption = document.querySelector('.popup__caption');
-  openModal(popupImageOp);
+  openModal(popupImageType);
   popupImage.src = cardImage.src;
   popupImage.setAttribute("alt", cardTitle.textContent);
   popupCaption.textContent = cardTitle.textContent;
