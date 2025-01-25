@@ -72,12 +72,12 @@ function handleFormSubmitEditProfile(evt) {
   evt.preventDefault();
 
   // Получите значение полей jobInput и nameInput из свойства value    
-  const nameInputValue = nameInputEditProfile.value;
-  const jobInputValue = jobInputEditProfile.value;
+  const nameInputEditProfileValue = nameInputEditProfile.value;
+  const jobInputEditProfileValue = jobInputEditProfile.value;
   
   // Вставьте новые значения с помощью textContent
-  profileTitle.textContent = nameInputValue;
-  profileDescription.textContent = jobInputValue;
+  profileTitle.textContent = nameInputEditProfileValue;
+  profileDescription.textContent = jobInputEditProfileValue;
 
   closeModal(popupEditCard);
 }
