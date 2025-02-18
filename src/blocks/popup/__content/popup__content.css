@@ -17,3 +17,17 @@
     padding: 30px 20px;
   }
 }
+
+.popup_type_card-delete .popup__content{
+  min-height: 100px;
+  margin-bottom: 0;
+}
+
+.popup_type_edit-avatar .popup__content {
+  min-height: 100px;
+  margin-bottom: 0;
+}
+
+.popup_type_card-delete .popup__button {
+  margin-top: 0;
+}

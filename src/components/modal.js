@@ -15,7 +15,12 @@ function closePopupEsc(evt) {
 export function closeModal (popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closePopupEsc);
-  popup.removeEventListener('click', closePopupOverlay);
+  popup.removeEventListener('click', closePopupOverlay); 
+  //очищаем поля
+  const fieldsetList = popup.querySelectorAll('.popup__form')
+    fieldsetList.forEach((formElement) => {      
+      formElement.reset();
+      });
 };
 
 //добавляем класс и анимацию при открытии попапа

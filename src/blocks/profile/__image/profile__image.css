@@ -1,4 +1,5 @@
 .profile__image {
+  position: relative;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50%;
@@ -19,4 +20,22 @@
   .profile__image {
     margin-right: 0;
   }
+}
+
+.profile__image:hover::before {
+  content: "";
+  background-color: black;
+  opacity: 0.8;
+}
+
+.profile__image:hover::after {  
+  content: "";  
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  top: 40%;
+  left: 40%;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../../../images/vector.svg);
 }
