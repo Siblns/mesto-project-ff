@@ -16,17 +16,11 @@ export function closeModal (popup) {
   popup.classList.remove('popup_is-opened');
   document.removeEventListener('keydown', closePopupEsc);
   popup.removeEventListener('click', closePopupOverlay); 
-  //очищаем поля
-  const fieldsetList = popup.querySelectorAll('.popup__form')
-    fieldsetList.forEach((formElement) => {      
-      formElement.reset();
-      });
 };
 
 //добавляем класс и анимацию при открытии попапа
 export function openModal (popup) {
   document.addEventListener('keydown', closePopupEsc);
   popup.addEventListener('click', closePopupOverlay);
-  popup.classList.add('popup_is-animated');
   popup.classList.add('popup_is-opened');
 };

@@ -43,7 +43,7 @@ export const createNewCard = (newCard) => {
   .then(handleResponse);
 };
 
-export const removeCard = (cardId) => {
+export const removeCardApi = (cardId) => {
   return fetch(`${config.baseUrl}/cards/${cardId}`, {
     method: 'DELETE',
     headers: config.headers
@@ -83,7 +83,7 @@ export const setLikeCardApi = (cardId) => {
   .then(handleResponse)
 };
 
-export const delLikeCard = (cardId) => {
+export const delLikeCardApi = (cardId) => {
   return fetch(`${config.baseUrl}/cards/likes/${cardId}`,  {
     method: 'DELETE',
     headers: config.headers
