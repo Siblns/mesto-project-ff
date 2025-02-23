@@ -1,5 +1,10 @@
 const cardTemplate = document.querySelector('#card-template').content;
 
+export function countingLikes (cardElement, iconCardLikes, arrayLikes){
+    cardElement.target.classList.toggle('card__like-button_is-active')
+    iconCardLikes.textContent = arrayLikes.length;
+};
+
 export function createCard(
   dataCard, 
   currentUser,
@@ -18,9 +23,10 @@ export function createCard(
   cardImage.setAttribute("alt", dataCard.name);
   
   const iconCardLikes = placeElement.querySelector('.card__like-count');
-  const isLikedCurrentUser = dataCard.likes.findIndex(data => data._id === currentUser)
+  const isLikedCurrentUser = dataCard.likes.some(data => data._id === currentUser);
+
   const countCardLikes = dataCard.likes.length;
-  
+
   if(countCardLikes === 0) {
     iconCardLikes.textContent = 0;
   }
@@ -28,7 +34,7 @@ export function createCard(
     iconCardLikes.textContent = countCardLikes;
   };
   
-  if(isLikedCurrentUser === 1){
+  if(isLikedCurrentUser){
      cardLikeButton.classList.toggle('card__like-button_is-active');
   };  
 
@@ -40,15 +46,14 @@ export function createCard(
     cardDeleteButton.classList.toggle('card__delete-button-hidden');
   };
 
-  
-  cardDeleteButton.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    if(dataCard.owner._id === currentUser) { 
+  if(dataCard.owner._id === currentUser) { 
+    cardDeleteButton.addEventListener('click', function (evt) {
+      evt.preventDefault();    
       deleteElement(dataCard._id, this.parentElement);
-      cardDeleteButton.removeEventListener('click', deleteElement);
-      }    
-  });
-
+      cardDeleteButton.removeEventListener('click', deleteElement);         
+    });
+  };
+  
   cardImage.addEventListener('click', function () {
     clickImageCard(cardImage, cardTitle);
   });

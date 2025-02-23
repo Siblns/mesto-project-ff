@@ -1,18 +1,22 @@
 import '../pages/index.css';
 import { closeModal, openModal } from '../components/modal.js';
-import { getInitialCards
-  , getUserProfile
-  , createNewCard
-  , editProfileAvatar 
-  , setLikeCardApi
-  , delLikeCardApi
-  , editProfile
-  , removeCardApi
+import { getInitialCards,
+  getUserProfile,
+  createNewCard,
+  editProfileAvatar,
+  setLikeCardApi,
+  delLikeCardApi,
+  editProfile,
+  removeCardApi,
 } from './api.js';
 
-import {clearValidation, enableValidation } from './validation.js';
+import {clearValidation, 
+  enableValidation 
+} from './validation.js';
 
-import { createCard }
+import { createCard, 
+  countingLikes 
+}
 from '../components/createCards.js';
 
 const handleResponseError = (err) => {
@@ -43,32 +47,26 @@ function handleFormSubmitCardDelete(evt){
     })
 }
 
-function removeCard (removeElementId, removeElement) {
+function openModalRemoveCard (removeElementId, removeElement) {
   removeCardElementId = removeElementId;
   removeCardElement = removeElement;
   openModal(popupDeleteCard);
-};
-
-function setClassLikeCard(card) {
-  card.target.classList.toggle('card__like-button_is-active')
 };
 
 function setLikeCard (cardElement, dataCardId, iconCardLikes){
   if(!cardElement.target.classList.contains('card__like-button_is-active')) {
     setLikeCardApi(dataCardId)      
       .then((data) => {
-        iconCardLikes.textContent = data.likes.length;
-        setClassLikeCard(cardElement);
+        countingLikes(cardElement, iconCardLikes, data.likes);
       })
       .catch((err) => {
         console.log(err);
     });
   }
-  else {      
+  else {
     delLikeCardApi(dataCardId)
       .then((data) => {
-        setClassLikeCard(cardElement);   
-        iconCardLikes.textContent = data.likes.length;
+        countingLikes(cardElement, iconCardLikes, data.likes);
       })
       .catch((err) => {
           console.log(err);
@@ -88,20 +86,12 @@ function renderCard(item, currentUser, method = "prepend") {
   placesList[ method ](createCard(
       item
     , currentUser
-    , removeCard
+    , openModalRemoveCard
     , setLikeCard
     , clickImageCard
     )
   );
 };
-
-//очищаем поля формы
-function clearForm(popup){
-  const fieldsetList = popup.querySelectorAll('.popup__form')
-    fieldsetList.forEach((formElement) => {      
-      formElement.reset();
-    });
-}
 
 //открытие, закрытие окна с добавлением
 const popupOpenButtonNewCard = document.querySelector('.profile__add-button');
@@ -159,8 +149,7 @@ Promise.all([getUserProfile(), getInitialCards()])
   .catch(handleResponseError);
 
 //окно редактирования аватара
-profileImage.addEventListener('click', () => 
-  {
+profileImage.addEventListener('click', () => {
     openModal(popupEditAvatar);
 
     const urlAvatar = profileImage.style.backgroundImage.slice(5, -2);;
@@ -185,13 +174,6 @@ function handleFormSubmitEditProfileAvatar(evt) {
     })
     .then(() => {  
       closeModal(popupEditAvatar);
-      clearForm(popupEditAvatar);
-      clearValidation(popupEditAvatar
-        , {
-          inputSelector: '.popup__input',
-          inputErrorClass: 'popup__input_type_error'
-          }
-        );
     })
     .catch(handleResponseError)
     .finally(() => {
@@ -200,8 +182,7 @@ function handleFormSubmitEditProfileAvatar(evt) {
 };
 
 //окно редактирования автора
-popupEditButton.addEventListener('click', () => 
-  {
+popupEditButton.addEventListener('click', () => {
     openModal(popupEditCard);
     //получение существующих значений
     nameInputEditProfile.value = profileTitle.textContent;
@@ -230,7 +211,6 @@ function handleFormSubmitEditProfile(evt) {
     })
     .then(() => {  
       closeModal(popupEditCard);
-      clearForm(popupEditCard);
       // Получение новых значений
       profileTitle.textContent = nameInputEditProfileValue;
       profileDescription.textContent = jobInputEditProfileValue;
@@ -249,7 +229,7 @@ formElementEditProfileAvatar.addEventListener('submit', handleFormSubmitEditProf
 //окно создания новой карточки
 popupOpenButtonNewCard.addEventListener('click', () => {
   openModal(popupNewCard);
-  clearForm(popupNewCard);
+  formNewPlace.reset();
   clearValidation(popupNewCard
     , {
       inputSelector: '.popup__input',
@@ -275,13 +255,11 @@ function handleFormSubmitNewCard(evt) {
     link: placeUrl.value
     }
   )
-  .then((data)=>{
+  .then((data) => {
     renderCard(data, data.owner._id); 
   })
-  .then(()=>{
-    //сброс значений и закрытие окна
+  .then(() => {
     closeModal(popupNewCard);
-    clearForm(popupNewCard);
   })
   .catch(handleResponseError)
   .finally(() => {
