@@ -49,8 +49,7 @@ export function createCard(
   if(dataCard.owner._id === currentUser) { 
     cardDeleteButton.addEventListener('click', function (evt) {
       evt.preventDefault();    
-      deleteElement(dataCard._id, this.parentElement);
-      cardDeleteButton.removeEventListener('click', deleteElement);         
+      deleteElement(dataCard._id, this.parentElement);       
     });
   };
   
